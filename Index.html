@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dubai365 - Demo Betting</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{
+    margin:0;
+    font-family:'Poppins', sans-serif;
+    background:#0f172a;
+    color:white;
+}
+header{
+    background:#16a34a;
+    padding:15px;
+    text-align:center;
+    font-weight:700;
+    font-size:20px;
+}
+.container{
+    padding:15px;
+    padding-bottom:180px;
+}
+.match{
+    background:#1e293b;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+.teams{
+    font-weight:600;
+    margin-bottom:10px;
+}
+.odds{
+    display:flex;
+    justify-content:space-between;
+}
+.odd-btn{
+    background:#334155;
+    padding:10px;
+    border-radius:8px;
+    flex:1;
+    margin:3px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.2s;
+}
+.odd-btn:hover{
+    background:#16a34a;
+}
+.bet-slip{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#1e293b;
+    padding:15px;
+    border-top:2px solid #16a34a;
+}
+input{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:8px;
+    border:none;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#16a34a;
+    border:none;
+    border-radius:20px;
+    margin-top:10px;
+    color:white;
+    font-weight:600;
+}
+.balance{
+    text-align:center;
+    margin-bottom:10px;
+    font-weight:600;
+}
+</style>
+</head>
+<body>
+
+<header>Dubai365</header>
+
+<div class="container">
+
+<div class="match">
+    <div class="teams">Real Madrid vs Barcelona</div>
+    <div class="odds">
+        <div class="odd-btn" onclick="addBet(1.80)">1 - 1.80</div>
+        <div class="odd-btn" onclick="addBet(3.20)">X - 3.20</div>
+        <div class="odd-btn" onclick="addBet(2.10)">2 - 2.10</div>
+    </div>
+</div>
+
+<div class="match">
+    <div class="teams">Manchester City vs Liverpool</div>
+    <div class="odds">
+        <div class="odd-btn" onclick="addBet(1.65)">1 - 1.65</div>
+        <div class="odd-btn" onclick="addBet(3.50)">X - 3.50</div>
+        <div class="odd-btn" onclick="addBet(2.40)">2 - 2.40</div>
+    </div>
+</div>
+
+</div>
+
+<div class="bet-slip">
+    <div class="balance">Saldo: € <span id="balance">100.00</span></div>
+    <div>Quota selezionata: <span id="selectedOdd">0</span></div>
+    <input type="number" id="stake" placeholder="Inserisci puntata">
+    <div>Vincita potenziale: € <span id="potentialWin">0</span></div>
+    <button onclick="placeBet()">Punta Ora</button>
+</div>
+
+<script>
+let selectedOdd = 0;
+let balance = 100;
+
+function addBet(odd){
+    selectedOdd = odd;
+    document.getElementById("selectedOdd").innerText = odd;
+    calculateWin();
+}
+
+document.getElementById("stake").addEventListener("input", calculateWin);
+
+function calculateWin(){
+    let stake = document.getElementById("stake").value;
+    let win = stake * selectedOdd;
+    document.getElementById("potentialWin").innerText = win ? win.toFixed(2) : 0;
+}
+
+function placeBet(){
+    let stake = parseFloat(document.getElementById("stake").value);
+
+    if(!stake || stake <= 0){
+        alert("Inserisci una puntata valida");
+        return;
+    }
+
+    if(stake > balance){
+        alert("Saldo insufficiente");
+        return;
+    }
+
+    balance -= stake;
+    document.getElementById("balance").innerText = balance.toFixed(2);
+    alert("Scommessa piazzata (DEMO)");
+}
+</script>
+
+</body>
+</html>
